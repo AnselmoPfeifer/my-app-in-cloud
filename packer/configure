@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+function installAppServer() {
+    mv /tmp/authorized_keys /home/ubuntu/.ssh/
+
+sudo -i << EOF
+    apt-get update -q
+    apt-get install nginx --yes
+EOF
+}
+
+function deploymentApp() {
+    sudo mv /tmp/index.html /var/www/html/
+    sudo chown www-data:www-data -R /var/www/html/
+    sudo chmod 755 -R /var/www/html/
+}
+
+function checkAppServer() {
+    ps aux | grep nginx
+    curl -I http://localhost/
+}
+
+installAppServer
+deploymentApp
+checkAppServer

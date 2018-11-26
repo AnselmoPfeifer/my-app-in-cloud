@@ -1,0 +1,5 @@
+aws-credentials.properties
+packer/template.json
+packer/authorized_keys
+.idea/
+file
