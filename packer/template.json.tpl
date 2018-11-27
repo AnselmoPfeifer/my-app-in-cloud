@@ -1,5 +1,7 @@
 {
   "variables": {
+    "aws_access_key": "<AWS_ACCESS_KEY_ID>",
+    "aws_secret_key": "<AWS_SECRET_ACCESS_KEY>",
     "destination_regions": "<AWS_DEFAULT_REGION>",
     "aws_vpc_id": "<AWS_VPC_ID>",
     "aws_subnet_id": "<AWS_SUBNET_ID>",
@@ -41,7 +43,7 @@
    },
    {
       "type": "file",
-      "source": "packer/authorized_keys",
+      "source": "keys/authorized_keys",
       "destination": "/tmp/authorized_keys"
    },
     {

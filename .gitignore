@@ -1,8 +1,6 @@
 packer/template.json
-packer/authorized_keys
-terraform/variables.tf
+terraform/provider.tf
 terraform/terraform.tfstate
-terraform/.terraform
+terraform/.terraform/
 terraform.tfstate.backup
 .idea/
-file
