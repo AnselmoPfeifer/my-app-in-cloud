@@ -11,23 +11,23 @@ AWS_VPC_ID=<REMOVED>
 AWS_LABEL=app-on-cloud
 ```
 * [Packer](https://www.packer.io/docs/install/index.html)
-    To prepare the base image before any deploy
+- To prepare the base image before any deploy
 
 * [AWS Cli](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) and [JQ](https://stedolan.github.io/jq/download/)
-    To get the ami-id
+- To get the ami-id
 
 * [Terraform](https://www.terraform.io/downloads.html)
-    To execute the deploy of new infrastructure version
-    These are the part of infrastructure on AWS cloud created by Terraform:
-    ELB, Security Group, Network, Instances...
+- To execute the deploy of new infrastructure version
+- These are the part of infrastructure on AWS cloud created by Terraform:
+ELB, Security Group, Network, Instances...
 
 ## The Execution by bash
 * Call ./start.sh script, for more information about this script check the description below
-    1 - Copy the id_rsa.pub content and create authorized_keys, to packer folder
-    2 - Export the aws variable
-    3 - The python script do the replace on packer json template
-    3 - Packer execution, in this point is created the image base.
-    4 - Terraform execution, is the last step, here are created all parts of load balance like network instances...
+- 1 - Copy the id_rsa.pub content and create authorized_keys, to packer folder
+- 2 - Export the aws variable
+- 3 - The python script do the replace on packer json template
+- 4 - Packer execution, in this point is created the image base.
+- 5 - Terraform execution, is the last step, here are created all parts of load balance like network instances...
 
 
 ## The Verification:
