@@ -1,14 +1,22 @@
 resource "aws_security_group" "internal_access" {
   name = "sg_allow_internal_access"
   description = "Allow Internal access"
-  vpc_id = "${var.vpc_id}"
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  ingress {
+    from_port = 0
+    protocol = "-1"
+    to_port = 0
+    cidr_blocks = ["10.0.0.0/16"]
+    description = "Enable Internal Access inbound"
+  }
 
   ingress {
     from_port = 22
     protocol = "tcp"
     to_port = 22
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Enable SSH port on inbound"
+    description = "Enable SSH port on Inbound"
   }
 
   egress {
@@ -16,7 +24,7 @@ resource "aws_security_group" "internal_access" {
     to_port = 0
     protocol = "-1"
     cidr_blocks  = ["0.0.0.0/0"]
-    description = "Enable all access outbound"
+    description = "Enable All Access outbound"
   }
 
   tags {
@@ -27,14 +35,14 @@ resource "aws_security_group" "internal_access" {
 resource "aws_security_group" "external_proxy_access" {
   name = "sg_allow_external_accesss"
   description = "Allow External access"
-  vpc_id = "${var.vpc_id}"
+  vpc_id = "${aws_vpc.vpc.id}"
 
   ingress {
     from_port = 80
     protocol = "tcp"
     to_port = 80
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Enable All HTTP access inbound"
+    description = "Enable all HTTP Access Inbound"
   }
 
   ingress {
@@ -42,7 +50,7 @@ resource "aws_security_group" "external_proxy_access" {
     protocol = "tcp"
     to_port = 443
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Enable All HTTPs access inbound"
+    description = "Enable all HTTPs Access Inbound"
   }
 
   egress {
@@ -50,7 +58,7 @@ resource "aws_security_group" "external_proxy_access" {
     to_port = 0
     protocol = "-1"
     cidr_blocks     = ["0.0.0.0/0"]
-    description = "Enable all access outbound"
+    description = "Enable all Access Outbound"
   }
 
   tags {

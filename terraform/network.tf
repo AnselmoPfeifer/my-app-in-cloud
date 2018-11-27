@@ -5,14 +5,14 @@ resource "aws_vpc" "vpc" {
   enable_classiclink_dns_support = true
 
   tags = {
-    Name = "vpc-${var.aws_client}"
+    Name = "vpc-${var.label}"
   }
 }
 
 resource "aws_internet_gateway" "gateway" {
   vpc_id = "${aws_vpc.vpc.id}"
   tags {
-    Name = "gateway-${var.aws_client}"
+    Name = "gateway-${var.label}"
   }
 }
 
@@ -24,7 +24,7 @@ resource "aws_subnet" "subnet" {
   map_public_ip_on_launch = true
 
   tags {
-    Name = "subnet-${var.aws_client}-${count.index}"
+    Name = "subnet-${var.label}-${count.index}"
   }
 }
 
@@ -35,7 +35,7 @@ resource "aws_route_table" "route-table" {
     gateway_id = "${aws_internet_gateway.gateway.id}"
   }
   tags {
-    Name = "route-table-${var.aws_client}"
+    Name = "route-table-${var.label}"
   }
 }
 

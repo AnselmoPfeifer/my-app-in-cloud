@@ -31,8 +31,8 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "app/index.html",
-      "destination": "/tmp/index.html"
+      "source": "app",
+      "destination": "/tmp/app"
     },
    {
       "type": "file",

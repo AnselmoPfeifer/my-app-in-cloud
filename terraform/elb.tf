@@ -1,23 +1,49 @@
-resource "aws_iam_role" "ec2_role" {
-  name = "AssumeS3Role"
-  description = "Assume Role to allow S3 access"
-  assume_role_policy = <<NODE
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ec2.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
+resource "aws_elb" "app-server" {
+  name                = "webserver-terraform-elb"
+
+  subnets             = [
+    "${aws_subnet.subnet.*.id}"
   ]
-}
-NODE
+
+  security_groups = [
+    "${aws_security_group.external_proxy_access.id}"
+  ]
+
+  instances                   = [
+    "${aws_instance.ec2-app-server-one.id}",
+    "${aws_instance.ec2-app-server-two.id}"
+  ]
+
+  cross_zone_load_balancing   = true
+  idle_timeout                = 400
+  connection_draining         = true
+  connection_draining_timeout = 400
+
+
+
+  listener {
+    instance_port     = 8080
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
+
+  health_check {
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+    timeout             = 3
+    target              = "HTTP:8080/"
+    interval            = 30
+  }
+
+  tags {
+    Name = "webserver-terraform-elb"
+  }
 }
 
-resource "aws_iam_role_policy_attachment" "ec2-role-AmazonS3FullAccess" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-  role       = "${aws_iam_role.ec2_role.name}"
+resource "aws_app_cookie_stickiness_policy" "stickiness" {
+  name          = "stickiness-policy"
+  load_balancer = "${aws_elb.app-server.name}"
+  lb_port       = 80
+  cookie_name   = "AppCookie"
 }

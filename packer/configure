@@ -9,17 +9,18 @@ EOF
 }
 
 function deploymentApp() {
+    local hostPath='/var/www/html/'
     sudo /etc/init.d/nginx stop
     sudo mv /tmp/default /etc/nginx/sites-available/default
-    sudo mv /tmp/index.html /var/www/html/
-    sudo chown www-data:www-data -R /var/www/html/
-    sudo chmod 755 -R /var/www/html/
+    sudo mv /tmp/app/index.html /tmp/app/ip.js ${hostPath}
+    sudo chown www-data:www-data -R ${hostPath}
+    sudo chmod 755 -R ${hostPath}
     sudo /etc/init.d/nginx start
 }
 
 function checkAppServer() {
     ps aux | grep nginx
-    curl -I http://localhost:8080/
+    curl -s -I http://localhost:8080/
 }
 
 installAppServer

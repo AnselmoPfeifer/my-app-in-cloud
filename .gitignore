@@ -1,5 +1,8 @@
-aws-credentials.properties
 packer/template.json
 packer/authorized_keys
+terraform/variables.tf
+terraform/terraform.tfstate
+terraform/.terraform
+terraform.tfstate.backup
 .idea/
 file
